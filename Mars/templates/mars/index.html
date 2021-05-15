@@ -1,0 +1,44 @@
+{% extends "mars/layout.html" %}
+{% load static %}
+
+{% block body %}
+<div class="flex-container">
+
+  <div class="flex-child forums-box">
+      <h4 class="heading">Newest Forum Threads</h4>
+      {% for thread in threads %}
+        <div class="forum-item" style="border: 2px;
+        border-style: solid;">
+          <div class="forum-title">
+            <h3><a href="{% url 'thread' thread.id %}">{{ thread.title }}</a></h3>
+          </div>
+          <div class="forum-author">
+            {{ thread.author }}
+          </div>
+          <div class="teaser">
+            {{ thread.content }}
+          </div>
+          <div>
+            <i>{{ thread.date }}</i>
+          </div>
+        </div>
+      {% endfor %}
+  </div>
+
+  <div class="flex-child weather-box">
+    <div class="weather-data">
+      <div>
+        <h3>Sol: {{ sol }}</h3>
+      </div>
+      <div>
+        <h3>Earth Date: {{ earth }}</h3>
+      </div>
+      <div>
+        <h3>Current Temp: {{ average }} &deg;F</h3>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

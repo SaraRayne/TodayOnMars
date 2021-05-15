@@ -1,0 +1,75 @@
+{% extends "mars/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+  <h1 class="title">Forums</h1>
+
+  <div class="flex-container">
+
+    <div class="flex-item filter" id="filter">
+      <div class="dropdown">
+        <button id="dropbtn" class="btn btn-info">Filter By Topic</button>
+        <div id="myDropdown" class="dropdown-content">
+            {% for category in categories %}
+                <a href="{% url 'filter' category.category %}">{{ category }}</a>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="flex-item search" id="forum-search">
+      <form action="{% url 'search' %}" method="post">
+        {% csrf_token %}
+        <input class="search" type="text" name="q" placeholder="Search Forums">
+      </form>
+    </div>
+  </div>
+
+  <div class="flex-stack">
+  {% if user.is_authenticated %}
+      <div class="flex-item" id="new-post">
+        <div id="createPost-button">
+          <button type="button" name="post-button" class="btn btn-primary btn-lg">+ Create a Post</button>
+        </div>
+        <div id="createPost-form">
+          <form action="{% url 'forums' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+              {{ form }}
+            </div>
+            <div class="form-group">
+              <input type="submit" class="btn btn-dark" value="Publish">
+            </div>
+        </form>
+        </div>
+      </div>
+  {% endif %}
+
+    <div class="flex-item" id="posts-view">
+    {% for thread in threads %}
+      <div class="forum-item" style="border: 2px;
+      border-style: solid;">
+        <div class="forum-title">
+          <h3><a href="{% url 'thread' thread.id %}">{{ thread.title }}</a></h3>
+        </div>
+        <div class="forum-author">
+          {{ thread.author }}
+        </div>
+        <div class="teaser">
+          {{ thread.content }}
+        </div>
+        <div>
+          <i>{{ thread.date }}</i>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+
+  </div>
+
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'mars/index.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "mars/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+  <div class="thread-item">
+    <div id="thread-title">
+      <h2>{{ thread.title }}</h2>
+    </div>
+
+    <div id="thread-content">
+      <p>{{ thread.content }}</p>
+    </div>
+
+    <div id="thread-info">
+      <p>Posted by <i>{{ thread.author }}</i> on {{ thread.date }}</p>
+    </div>
+
+  </div>
+
+  {% if user.is_authenticated %}
+    <div id="reply-button">
+      <button type="button" name="reply-btn" class="btn btn-primary">Reply</button>
+    </div>
+    <div id="reply-form">
+      <form action="{% url 'reply' thread.id %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          {{ form }}
+        </div>
+        <div class="form-group">
+          <input type="submit" class="btn btn-dark" value="Publish">
+        </div>
+    </form>
+    </div>
+  {% endif %}
+
+  <div class="replies">
+    {% for reply in replies %}
+      <div class="reply-container">
+        <div id="reply-content">
+          <p>{{ reply.reply }}</p>
+        </div>
+
+        <div id="reply-info">
+          <p>Posted by <i>{{ reply.author }}</i> on {{ reply.date }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+{% endblock %}
+
+{% block script %}
+  <script src="{% static 'mars/thread.js' %}"></script>
+{% endblock %}

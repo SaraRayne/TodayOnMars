@@ -1,0 +1,48 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{% block title %}Today On Mars{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="{% static 'mars/styles.css' %}" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    {% block script %}
+    {% endblock %}
+  </head>
+  <body>
+      <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #DEB887;">
+          <a class="navbar-brand" href="{% url 'index' %}">Home</a>
+          <div>
+              <ul class="navbar-nav mr-auto">
+                 <li class="nav-item">
+                     <a class="nav-link" href="{% url 'forums' %}">Forums</a>
+                 </li>
+                 <li class="nav-item">
+                     <a class="nav-link" href="{% url 'image' %}">Image of the Day</a>
+                 </li>
+              {% if user.is_authenticated %}
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                  </li>
+              {% else %}
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'register' %}">Register</a>
+                  </li>
+              {% endif %}
+            </ul>
+          </div>
+        </nav>
+      <div id="mainImage">
+          <img id="front-image" src="{% static 'mars/NASA_Mars_Rover.jpg' %}" alt="Artist Rendition Mars Rover">
+      </div>
+      <h1 class="title">Today On Mars</h1>
+
+      {% block body %}
+      {% endblock %}
+  </body>
+</html>
